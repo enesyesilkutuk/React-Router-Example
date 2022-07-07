@@ -1,11 +1,13 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import NotFound from "./NotFound";
 // import { useLocation } from 'react-router-dom';
 
 const InstructorDetail = () => {
   
   const { id } = useParams();
-  const [inst, setInst] = useState([]);
+  const [inst, setInst] = useState(null);
+  const [error, setError] = useState(false);
   const navigate = useNavigate();
   
   // onClick={() => navigate(`/instructors/${id}`, { state: inst })} Instructors sayfasından bu şekilde gonderilen state(veriyi) yakalamak icin ise
@@ -15,13 +17,29 @@ const InstructorDetail = () => {
 
 useEffect(() => {
     fetch(`https://jsonplaceholder.typicode.com/users/${id}`)
-    .then((res) => res.json())
+    .then((res) => {
+      if (!res.ok) {
+        setError(true);
+        throw new Error("Something went wrong");
+      }
+      return res.json();
+    })
     .then((data) => setInst(data))
     .catch((err) => console.log(err));
 }, [id]);
 
- return (
-    <div className="container text-center">
+if (error) {
+  return <NotFound />
+} else if (!inst) {
+  return (
+    <div className="text-center">
+    <h2>Data is fetching</h2>
+    </div>
+  )
+}
+  else {
+    return (
+      <div className="container text-center">
       <h3>{inst.name}</h3>
       <img
         className="w-50"
@@ -39,7 +57,8 @@ useEffect(() => {
         </button>
       </div>
     </div>
-  );
+    );
+  };
 };
 
 export default InstructorDetail;
