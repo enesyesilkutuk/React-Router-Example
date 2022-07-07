@@ -3,7 +3,7 @@ import { Link, NavLink } from 'react-router-dom';
 
 function Nav() {
   return (
-    <nav className="navbar navbar-expand-md navbar-light ">
+    <nav className="navbar navbar-expand-md navbar-light">
       <div className="container-fluid">
         <Link to="/" className="navbar-brand">
           <img src={logo} alt="" />
@@ -24,9 +24,14 @@ function Nav() {
               </NavLink>
             </li>
             <li className="nav-item">
-            <NavLink style={({ isActive }) => ({ color: isActive && 'red'})} to="/instructors" className="nav-link active">
+            <NavLink style={({ isActive }) => ({ color: isActive && 'red'})} to="/instructors" className="nav-link">
               Instructors
             </NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink style={({ isActive }) => ({ color: isActive && 'red'})} to="/paths" className="nav-link active">
+                Paths
+              </NavLink>
             </li>
             <li className="nav-item">
               <NavLink style={({ isActive }) => ({ color: isActive && 'red'})} to="/contact" className="nav-link">
